@@ -9,18 +9,20 @@
   <body>
     <header>
       <form id="search-form">
-        <input type="text" id="search-input" placeholder="Buscar..." />
-        <button type="submit">🔍</button>
+        <input type="text" id="search-input" placeholder="Buscar..."><a>🔍</a></input>
+        <button type="submit" id="filter-icon"><svg
+          width="20"
+          height="20"
+          fill="#f0f0f0"
+          viewBox="0 0 80 90"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="m 0,0 30,45 0,30 10,15 0,-45 30,-45 Z"></path> 
+        </svg></button>
       </form>
       <div id="filter-container">
-        <svg
-          id="filter-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-        >
-          <path d="M10 18h4v-2h-4v2zm-7-6v2h18v-2h-18zm3-8v2h12v-2h-12z" />
+
         </svg>
         <span id="active-filters">0</span>
       </div>

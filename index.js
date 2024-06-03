@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (value) searchParams.set(key, value);
       else searchParams.delete(key);
     }
-    searchParams.set("qtd", 5); // Set the limit to 5 items
+    searchParams.set("qtd", 5);
     history.replaceState(null, "", "?" + searchParams.toString());
     updateActiveFilters();
   }
@@ -74,9 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const newsItem = document.createElement("li");
       const imgUrl = JSON.parse(item.imagens);
       newsItem.innerHTML = `
-        <img src="https://agenciadenoticias.ibge.gov.br/${
-          imgUrl.image_intro
-        }" alt="${item.titulo}">
+        <div id="noticia">
+        <img src="https://agenciadenoticias.ibge.gov.br/${imgUrl.image_intro}" alt="${item.titulo}">
         <h2>${item.titulo}</h2>
         <p>${item.introducao}</p>
         <p>#${item.editorias}</p>
@@ -84,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <a href="https://agenciadenoticias.ibge.gov.br/${
           item.url
         }" target="_blank">Leia Mais</a>
-      `;
+        </div>
+        `;
       newsList.appendChild(newsItem);
     });
   }

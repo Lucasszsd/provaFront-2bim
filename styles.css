@@ -14,6 +14,13 @@ footer {
   text-align: center;
   padding: 1em;
 }
+a{
+  background-color: grey;
+  color: black;
+}
+svg{
+  margin-left: 30px;
+}
 
 main {
   background-color: #f0f0f0;
@@ -52,7 +59,7 @@ form button {
 
 #filter-icon {
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 50px;
 }
 
 #active-filters {
@@ -65,12 +72,22 @@ form button {
   padding: 2px 5px;
   font-size: 0.75em;
 }
-
+#searchIcon{
+  display: block;
+}
 ul {
   list-style: none;
   padding: 0;
+  max-width: 300px;
 }
-
+ul li{
+  display: grid;
+  grid-column: auto;
+}
+li img{
+  width:200px;
+  height: 200px;
+}
 #filter-dialog form {
   display: grid;
   gap: 10px;
