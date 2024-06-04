@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchNews();
 
-  // Event listeners
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     updateQueryString();
@@ -35,10 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(filterForm);
     for (const [key, value] of formData.entries()) {
-      if (value) searchParams.set(key, value);
-      else searchParams.delete(key);
+      if (value && typeof value === "string") {
+        searchParams.set(key, value);
+      } else {
+        searchParams.delete(key);
+      }
     }
-    searchParams.set("qtd", 5);
     history.replaceState(null, "", "?" + searchParams.toString());
     updateActiveFilters();
   }
@@ -54,12 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fetchNews() {
     const searchParams = new URLSearchParams(window.location.search);
-    // Ensure 'qtd' is always set to 5 in the fetch request
     if (!searchParams.has("qtd")) {
       searchParams.set("qtd", 5);
     }
     const finalUrl = `${apiUrl}?${searchParams.toString()}`;
-    console.log(finalUrl);
     fetch(finalUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -75,27 +74,37 @@ document.addEventListener("DOMContentLoaded", () => {
       const imgUrl = JSON.parse(item.imagens);
       newsItem.innerHTML = `
         <div id="noticia">
-        <img src="https://agenciadenoticias.ibge.gov.br/${imgUrl.image_intro}" alt="${item.titulo}">
-        <h2>${item.titulo}</h2>
-        <p>${item.introducao}</p>
-        <p>#${item.editorias}</p>
-        <p>Publicado há ${calculateTimeAgo(new Date(item.data_publicacao))}</p>
-        <a href="https://agenciadenoticias.ibge.gov.br/${
-          item.url
-        }" target="_blank">Leia Mais</a>
+          <img src="https://agenciadenoticias.ibge.gov.br/${
+            imgUrl.image_intro
+          }" alt="${item.titulo}">
+          <h2>${item.titulo}</h2>
+          <p>${item.introducao}</p>
+          <p>#${item.editorias}</p>
+          <p>Publicado ${calculateTimeAgo(item.data_publicacao)}</p>
+          <a href="${item.link}" target="_blank">Leia Mais</a>
         </div>
-        `;
+      `;
       newsList.appendChild(newsItem);
     });
   }
 
   function renderPagination(totalItems) {
-    const itemsPerPage = 5; // Fixed to 5 items per page
+    const itemsPerPage = 5;
     const currentPage =
       parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     pagination.innerHTML = "";
-    for (let i = 1; i <= totalPages; i++) {
+
+    const maxButtons = 10;
+    let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    let endPage = startPage + maxButtons - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxButtons + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
       const pageItem = document.createElement("li");
       const pageButton = document.createElement("button");
       pageButton.textContent = i;
@@ -103,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
       pageButton.addEventListener("click", () => {
         const searchParams = new URLSearchParams(window.location.search);
         searchParams.set("page", i);
-        searchParams.set("qtd", 5); // Ensure 'qtd' is included in pagination
         history.replaceState(null, "", "?" + searchParams.toString());
         fetchNews();
       });
@@ -112,16 +120,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function calculateTimeAgo(date) {
+  function calculateTimeAgo(dateString) {
+    const dateParts = dateString.toString().split(" ");
+    const date = dateParts[0].split("/");
+    const time = dateParts[1].split(":");
+    const formattedDateString = `${date[2]}-${date[1]}-${date[0]}T${time[0]}:${time[1]}:${time[2]}`;
+    const dateObj = new Date(formattedDateString);
+    if (isNaN(dateObj.getTime())) {
+      return "Data inválida";
+    }
+
     const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffTime = Math.abs(now - dateObj);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
     if (diffDays === 0) return "hoje";
     if (diffDays === 1) return "ontem";
     return `há ${diffDays} dias`;
   }
 
-  // Initialize filter values from query string
   function initializeFilters() {
     const searchParams = new URLSearchParams(window.location.search);
     document.getElementById("search-input").value =
@@ -135,22 +152,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Fetch and populate filter options
-  function populateFilterOptions() {
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const typeSelect = document.getElementById("type");
-        data.items.forEach((tipo) => {
-          const option = document.createElement("option");
-          option.value = tipo;
-          option.textContent = tipo;
-          typeSelect.appendChild(option);
-        });
-      });
-  }
-
-  // Initialize filters on page load
   initializeFilters();
-  populateFilterOptions();
 });

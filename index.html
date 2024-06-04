@@ -9,7 +9,7 @@
   <body>
     <header>
       <form id="search-form">
-        <input type="text" id="search-input" placeholder="Buscar..."><a>🔍</a></input>
+        <input type="text" id="search-input" placeholder="Buscar..."><a id="search-icon">🔍</a></input>
         <button type="submit" id="filter-icon"><svg
           width="20"
           height="20"
@@ -38,18 +38,22 @@
       <button type="button" id="close-dialog">X</button>
       <form id="filter-form">
         <label for="type">Tipo:</label>
-        <select id="type" name="type"></select>
-        <label for="quantity">Quantidade:</label>
-        <select id="quantity" name="quantity">
+        <select id="type" name="type">
+          ]<option selected></option>
+          <option value="noticia">noticia</option>
+          <option value="release">release</option>
+        </select>
+        <label for="qtd">Quantidade:</label>
+        <select id="qtd" name="qtd">
           <option value="5">5</option>
           <option value="10" selected>10</option>
           <option value="15">15</option>
           <option value="20">20</option>
         </select>
-        <label for="from">De:</label>
-        <input type="date" id="from" name="from" />
-        <label for="to">Até:</label>
-        <input type="date" id="to" name="to" />
+        <label for="de">De:</label>
+        <input type="date" id="de" name="de" />
+        <label for="ate">Até:</label>
+        <input type="date" id="ate" name="ate" />
       </form>
       <button type="button" id="apply-filters">Aplicar</button>
     </dialog>
