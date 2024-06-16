@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const imgUrl = JSON.parse(item.imagens);
       newsItem.innerHTML = `
         <div id="noticia">
-          <img src="https://agenciadenoticias.ibge.gov.br/${
+          <img src="http://agenciadenoticias.ibge.gov.br/${
             imgUrl.image_intro
           }" alt="${item.titulo}">
           <h2>${item.titulo}</h2>
