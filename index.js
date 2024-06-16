@@ -121,11 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function calculateTimeAgo(dateString) {
-    const dateParts = dateString.toString().split(" ");
-    const date = dateParts[0].split("/");
-    const time = dateParts[1].split(":");
-    const formattedDateString = `${date[2]}-${date[1]}-${date[0]}T${time[0]}:${time[1]}:${time[2]}`;
-    const dateObj = new Date(formattedDateString);
+    const dateObj = new Date(dateString);
+
     if (isNaN(dateObj.getTime())) {
       return "Data inválida";
     }

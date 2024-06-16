@@ -132,3 +132,30 @@ li img {
     grid-template-columns: 1fr;
   }
 }
+
+ul#pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+}
+
+ul#pagination li {
+  list-style: none;
+}
+
+ul#pagination button {
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 760px) {
+  ul#pagination {
+    flex-wrap: wrap;
+  }
+}
