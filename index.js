@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const apiUrl = "http://servicodados.ibge.gov.br/api/v3/noticias";
+  const apiUrl = "https://servicodados.ibge.gov.br/api/v3/noticias";
   const searchForm = document.getElementById("search-form");
   const filterIcon = document.getElementById("filter-icon");
   const filterDialog = document.getElementById("filter-dialog");
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const imgUrl = JSON.parse(item.imagens);
       newsItem.innerHTML = `
         <div id="noticia">
-          <img src="http://agenciadenoticias.ibge.gov.br/${
+          <img src="https://agenciadenoticias.ibge.gov.br/${
             imgUrl.image_intro
           }" alt="${item.titulo}">
           <h2>${item.titulo}</h2>
