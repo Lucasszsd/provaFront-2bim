@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchNews() {
     const searchParams = new URLSearchParams(window.location.search);
     if (!searchParams.has("qtd")) {
-      searchParams.set("qtd", 5);
+      searchParams.set("qtd", 10);
     }
     const finalUrl = `${apiUrl}?${searchParams.toString()}`;
     fetch(finalUrl)
